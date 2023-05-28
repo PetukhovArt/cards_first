@@ -1,7 +1,7 @@
 import React from "react";
 import { createBrowserRouter } from "react-router-dom";
 import { Profile } from "features/profile/Profile";
-import ErrorPage from "routes/error-page/ErrorPage";
+import ErrorPage from "common/error-page/ErrorPage";
 import { Login } from "features/login/Login";
 import { Register } from "features/register/Register";
 import { CheckEmail } from "features/check-email/CheckEmail";

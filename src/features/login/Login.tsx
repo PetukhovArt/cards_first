@@ -22,7 +22,7 @@ export const Login = () => {
   });
   const emailRegex = /^\S+@\S+\.\S+$/;
 
-  const loginHandler = () => {
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
     dispatch(
       authThunks.login({
         email: "s1abak38@gmail.com",
@@ -30,9 +30,6 @@ export const Login = () => {
         rememberMe: true,
       })
     );
-  };
-
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
     // dispatch(loginTC(data.login, data.password));
   };
 
@@ -42,7 +39,6 @@ export const Login = () => {
 
   return (
     <div className={c.container}>
-      <button onClick={loginHandler}>login</button>
       <div className={c.loginForm}>
         <form onSubmit={handleSubmit(onSubmit)} className={c.formWrapper}>
           <h1>Форма логина</h1>

@@ -4,6 +4,7 @@ import { useAppDispatch } from "app/hooks";
 import { appActions } from "features/app/appSlice";
 import { router } from "routes/routes";
 import { Header } from "components/Header/Header";
+import s from "./App.module.css";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -15,9 +16,9 @@ function App() {
   }, []);
 
   return (
-    <div className="">
+    <div className={s.appWrapper}>
       <Header />
-      <div className="">
+      <div className={s.main}>
         <RouterProvider router={router} />
       </div>
     </div>

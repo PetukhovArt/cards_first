@@ -1,10 +1,27 @@
-body {
+body,
+html {
+  font-family: "Montserrat", sans-serif;
+  box-sizing: border-box;
   margin: 0;
-  font-family: Roboto, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+}
+body {
+  font-size: 14px;
+  scroll-behavior: smooth;
+  background: #0f0f0f;
+}
+.container {
+  /*для ограничения ширины*/
+  max-width: 1200px;
+  height: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
-}
+/*Когда ширина экрана достигает или превышает 1200px,
+ ширина элемента .container устанавливается на 1200px.*/
+/*@media (min-width: 1200px) {*/
+/*  .container {*/
+/*    width: 1200px;*/
+/*  }*/
+/*}*/

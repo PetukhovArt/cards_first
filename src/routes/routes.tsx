@@ -1,5 +1,5 @@
 import React from "react";
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, createHashRouter } from "react-router-dom";
 import { Profile } from "features/profile/Profile";
 import ErrorPage from "common/error-page/ErrorPage";
 import { Login } from "features/login/Login";
@@ -23,9 +23,11 @@ export enum RouteNames {
 }
 
 export const router = createBrowserRouter([
+  //createBrowserRouter
+  //createHashRouter  if use GitHub pages
   {
     path: RouteNames.START_PAGE,
-    element: <Profile />,
+    element: <Packs />, //скорректировать на Packs?
     errorElement: <ErrorPage />,
   },
   {

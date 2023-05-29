@@ -1,12 +1,22 @@
 .header {
   position: relative;
   height: 60px;
-  background-image: linear-gradient(
-    330deg,
-    hsl(272, 53%, 50%) 0%,
-    hsl(226, 68%, 56%) 100%
-  );
   display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  border-bottom: 1px solid blue;
+}
+.headerContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+.actions {
+  display: flex;
+  gap: 10px;
   justify-content: center;
   align-items: center;
 }

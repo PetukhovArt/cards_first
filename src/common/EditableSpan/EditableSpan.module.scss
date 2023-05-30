@@ -1,0 +1,13 @@
+@import "src/common/styles/mixins.scss";
+
+.titleStyle {
+  font-size: 18px;
+  height: 56px;
+  color: #0080ff;
+  @include flex-block(); //(flex, row, center, center)
+  img {
+    padding-left: 5px;
+    height: 20px;
+    width: 20px;
+  }
+}

@@ -1,41 +1,45 @@
-import React from "react";
-import c from "./Login.module.css";
+import React, { useEffect } from "react";
+import c from "features/login/Login.module.scss";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { authThunks } from "features/auth/authSlice";
-import { useAppDispatch } from "app/hooks";
+import { useAppDispatch, useAppSelector } from "app/hooks";
+import { Navigate, useNavigate } from "react-router-dom";
+import { ErrorMessage } from "@hookform/error-message";
+import { RootState } from "app/store";
 
 type Inputs = {
-  login: string;
+  email: string;
   password: string;
-  phone: number;
+  rememberMe: boolean;
   multipleErrorInput: string;
 };
 
 export const Login = () => {
+  const isAuth = useAppSelector((state: RootState) => state.auth.isAuth);
+
   const dispatch = useAppDispatch();
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>({
-    criteriaMode: "all",
-  });
+  } = useForm<Inputs>({ criteriaMode: "all" });
   const emailRegex = /^\S+@\S+\.\S+$/;
-
+  const navigate = useNavigate();
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     dispatch(
       authThunks.login({
-        email: "s1abak38@gmail.com",
-        password: "Grebeshok123",
-        rememberMe: true,
+        email: data.email,
+        password: data.password,
+        rememberMe: data.rememberMe,
       })
     );
-    // dispatch(loginTC(data.login, data.password));
   };
 
-  // if (isAuth) {
-  //   return <Navigate to={"/basket"} />;
-  // }
+  useEffect(() => {
+    if (isAuth) {
+      navigate("/profile");
+    }
+  }, [isAuth]);
 
   return (
     <div className={c.container}>
@@ -43,7 +47,7 @@ export const Login = () => {
         <form onSubmit={handleSubmit(onSubmit)} className={c.formWrapper}>
           <h1>Форма логина</h1>
           <input
-            {...register("login", {
+            {...register("email", {
               required: "Ввод почты обязателен (ваша почта)",
               pattern: {
                 value: emailRegex,
@@ -55,17 +59,18 @@ export const Login = () => {
               },
             })}
           />
-          {/*<ErrorMessage*/}
-          {/*  errors={errors}*/}
-          {/*  name="login"*/}
-          {/*  render={({ messages }) => {*/}
-          {/*    return messages*/}
-          {/*      ? Object.entries(messages).map(([type, message]) => (*/}
-          {/*          <p key={type}>{message}</p>*/}
-          {/*        ))*/}
-          {/*      : null;*/}
-          {/*  }}*/}
-          {/*/>*/}
+
+          <ErrorMessage
+            errors={errors}
+            name="email"
+            render={({ messages }) => {
+              return messages
+                ? Object.entries(messages).map(([type, message]) => (
+                    <p key={type}>{message}</p>
+                  ))
+                : null;
+            }}
+          />
 
           <input
             type="password"
@@ -85,17 +90,19 @@ export const Login = () => {
               },
             })}
           />
-          {/*<ErrorMessage*/}
-          {/*  errors={errors}*/}
-          {/*  name="password"*/}
-          {/*  render={({ messages }) => {*/}
-          {/*    return messages*/}
-          {/*      ? Object.entries(messages).map(([type, message]) => (*/}
-          {/*          <p key={type}>{message}</p>*/}
-          {/*        ))*/}
-          {/*      : null;*/}
-          {/*  }}*/}
-          {/*/>*/}
+          <ErrorMessage
+            errors={errors}
+            name="password"
+            render={({ messages }) => {
+              return messages
+                ? Object.entries(messages).map(([type, message]) => (
+                    <p key={type}>{message}</p>
+                  ))
+                : null;
+            }}
+          />
+          <label htmlFor="rememberMe">Remember me</label>
+          <input id="rememberMe" type="checkbox" {...register("rememberMe")} />
 
           <input type="submit" />
         </form>

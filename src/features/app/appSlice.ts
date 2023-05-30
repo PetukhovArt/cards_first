@@ -1,24 +1,20 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+export type isLoadingType = "loading" | "failed" | "success" | "idle";
+
 const slice = createSlice({
   name: "app",
   initialState: {
     error: null as string | null,
-    isLoading: true,
+    resStatus: "idle" as isLoadingType,
     isAppInitialized: false,
   },
   reducers: {
-    // Подредьюсер.
-    // Action - это payload объект. Типизация через PayloadAction
-    setIsLoading: (state, action: PayloadAction<{ isLoading: boolean }>) => {
-      // Логику в подредьюсерах пишем мутабельным образом,
-      // т.к. иммутабельность достигается благодаря immer.js
-      state.isLoading = action.payload.isLoading;
+    setIsLoading: (state, action: PayloadAction<{ resStatus: isLoadingType }>) => {
+      state.resStatus = action.payload.resStatus;
     },
   },
 });
 
 export const appReducer = slice.reducer;
-// Action creators создаются автоматически для каждого подредьюсера
-// Все экшены упаковываем в объект. В дальнейшем пригодится
 export const appActions = slice.actions;

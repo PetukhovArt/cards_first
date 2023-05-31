@@ -15,7 +15,6 @@ import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 export const Profile = () => {
   const dispatch = useAppDispatch();
   const { profile, isAuth } = useAppSelector((state: RootState) => state.auth);
-  const resStatus = useAppSelector((state: RootState) => state.app.resStatus);
 
   const onClickLogoutHandler = () => {
     dispatch(authThunks.logoutTC());

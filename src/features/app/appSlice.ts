@@ -1,28 +1,49 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { isAuthTC } from "features/auth/authSlice";
 
-export type isLoadingType = "loading" | "failed" | "success" | "idle";
 export type ErrorType = string | null | undefined;
 
 const slice = createSlice({
   name: "app",
   initialState: {
     error: null as ErrorType,
-    resStatus: "idle" as isLoadingType,
-    isAppInitialized: false,
+    isLoading: false as boolean,
+    // isAppInitialized: false,
   },
   reducers: {
-    setResStatus: (state, action: PayloadAction<{ resStatus: isLoadingType }>) => {
-      state.resStatus = action.payload.resStatus;
+    setResStatus: (state, action: PayloadAction<{ isLoading: boolean }>) => {
+      state.isLoading = action.payload.isLoading;
     },
     setError: (state, action: PayloadAction<{ error: ErrorType }>) => {
       state.error = action.payload.error;
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(isAuthTC.rejected, (state, action: PayloadAction<ErrorType>) => {
-      state.error = action.payload;
-    });
+    builder
+      .addMatcher(
+        (action) => {
+          return action.type.endsWith("/pending");
+        },
+        (state, action) => {
+          state.isLoading = true;
+        }
+      )
+      .addMatcher(
+        (action) => {
+          return action.type.endsWith("/fulfilled");
+        },
+        (state, action) => {
+          state.isLoading = false;
+        }
+      )
+      .addMatcher(
+        (action) => {
+          return action.type.endsWith("/rejected"); // любой экшн с реджектом
+        },
+        (state, action) => {
+          state.isLoading = false; // убираем лоадер
+          state.error = action.payload; // передаем значение ошибки в снакбар
+        }
+      );
   },
 });
 

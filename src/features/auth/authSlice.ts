@@ -21,9 +21,14 @@ const registerTC = createAppAsyncThunk("auth/register", async (arg: RegPayloadTy
 
 const loginTC = createAppAsyncThunk<{ profile: ProfileType }, LoginPayloadType>(
   "auth/login",
-  async (arg) => {
-    const res = await authApi.login(arg);
-    return { profile: res.data };
+  async (arg, thunkAPI) => {
+    const { rejectWithValue } = thunkAPI;
+    try {
+      const res = await authApi.login(arg);
+      return { profile: res.data };
+    } catch (e) {
+      return rejectWithValue(errorUtils(e as AxiosError<{ error: string }>));
+    }
     // возвращаем данные из санки, упаковываем в объект, используем в extraReducers
   }
 );
@@ -41,7 +46,7 @@ const updateUserTC = createAppAsyncThunk<{ profile: UpdatedProfileType }, Update
 export const isAuthTC = createAppAsyncThunk<{ profile: ProfileType }>(
   "auth/isAuth",
   async (arg, thunkAPI) => {
-    const { dispatch, rejectWithValue } = thunkAPI;
+    const { rejectWithValue } = thunkAPI;
     try {
       const res = await authApi.isAuth();
       return { profile: res.data };

@@ -29,6 +29,7 @@ type ButtonPropsType = {
   height?: string;
   borderRadius?: string;
   onClickCallBack?: () => void;
+  type?: string;
 };
 
 export const SuperButton = (props: ButtonPropsType) => {
@@ -42,6 +43,7 @@ export const SuperButton = (props: ButtonPropsType) => {
     height,
     borderRadius,
     onClickCallBack,
+    type,
   } = props;
 
   const location = useLocation();
@@ -65,6 +67,7 @@ export const SuperButton = (props: ButtonPropsType) => {
 
   return (
     <Button
+      type={type === "submit" ? "submit" : "button"}
       sx={{
         width: width, //размеры из пропсов : "60px" либо стандартные
         height: height,

@@ -1,129 +1,78 @@
-.container {
-    margin-top: 30px;
-    border-radius: 5px;
-    background: #0e101c;
-    padding: 30px;
-    grid-area: content;
-}
+@import "src/common/styles/mixins.scss";
+//
 
-
-.formWrapper {
+.formContainer {
+  @include flex-block(flex, column, center, center);
+  height: 100%;
+  .formWrapper {
     display: flex;
-    flex-direction: column;
-    gap: 7px;
-}
-
-
-.loginForm form {
-    max-width: 350px;
-    margin: 0 auto;
-}
-
-.loginForm h1 {
-    font-weight: 100;
-    color: white;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    width: 360px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    border-radius: 10px;
     text-align: center;
-    padding-bottom: 10px;
-    border-bottom: 1px solid rgb(79, 98, 148);
-}
+    label {
+      font-size: 14px;
+    }
+    h3 {
+      color: #000000;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 26px;
+      line-height: 32px;
+      margin: 0;
+      padding: 0;
+    }
+    p {
+      color: #bf1650;
+      margin: 4px 0 0;
+      padding: 0;
+    }
+    p::before {
+      display: inline;
+      content: "⚠ ";
+    }
+    .checkBoxContainer {
+      margin-left: 30px;
+      padding: 6px;
+    }
+    .rememberMeBlock {
+      display: flex;
+      justify-content: left;
+      label {
+        padding: 10px 0;
+        margin: 0;
+        font-weight: 500;
+        span {
+          padding: 0 5px 0 0;
+          font-size: 14px;
+          line-height: 17px;
+        }
+      }
+    }
+    .forgotWrapper {
+      display: flex;
+      margin-bottom: 40px;
+      justify-content: right;
+      .linkForgot {
+      }
+    }
 
-
-.loginForm p {
-    color: #bf1650;
-}
-
-.loginForm p::before {
-    display: inline;
-    content: "⚠ ";
-}
-
-.loginForm input {
-    display: block;
-    box-sizing: border-box;
-    width: 100%;
-    border-radius: 4px;
-    border: 1px solid white;
-    padding: 10px 15px;
-    margin-bottom: 10px;
-    font-size: 14px;
-}
-
-.loginForm label {
-    line-height: 2;
-    text-align: left;
-    display: block;
-    margin-bottom: 13px;
-    margin-top: 20px;
-    color: white;
-    font-size: 14px;
-    font-weight: 200;
-}
-
-.loginForm button[type="submit"],
-input[type="submit"] {
-    background: #ec5990;
-    color: white;
-    text-transform: uppercase;
-    border: none;
-    margin-top: 40px;
-    padding: 20px;
-    font-size: 16px;
-    font-weight: 100;
-    letter-spacing: 10px;
-}
-
-.loginForm button[type="submit"]:hover,
-input[type="submit"]:hover {
-    background: #bf1650;
-}
-
-.loginForm button[type="submit"]:active,
-input[type="button"]:active,
-input[type="submit"]:active {
-    transition: 0.3s all;
-    transform: translateY(3px);
-    border: 1px solid transparent;
-    opacity: 0.8;
-}
-
-.loginForm input:disabled {
-    opacity: 0.4;
-}
-
-.loginForm input[type="button"]:hover {
-    transition: 0.3s all;
-}
-
-.loginForm button[type="submit"],
-input[type="button"],
-input[type="submit"] {
-    -webkit-appearance: none;
-}
-
-
-.loginForm button[type="button"] {
-    display: block;
-    appearance: none;
-    background: #333;
-    color: white;
-    border: none;
-    text-transform: uppercase;
-    padding: 10px 20px;
-    border-radius: 4px;
-}
-
-.loginForm pre {
-    color: white;
-}
-
-
-.loginForm button {
-    display: block;
-    appearance: none;
-    margin-top: 40px;
-    border: 1px solid #333;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-    padding: 10px 20px;
-    border-radius: 4px;
+    .linkRegister {
+    }
+    .dontHave {
+      margin-top: 20px;
+      margin-bottom: 10px;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 24px;
+      text-align: center;
+      color: #000000;
+      opacity: 0.5;
+    }
+  }
 }

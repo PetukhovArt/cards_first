@@ -1,13 +1,11 @@
 import React from "react";
 import { useAppDispatch, useAppSelector } from "app/hooks";
-import { RootState } from "app/store";
 import s from "features/Header/Header.module.scss";
 import { ProgressBar } from "features/app/ProgressBar/ProgressBar";
-import { isLoadingType } from "features/app/appSlice";
 
 export const Header = () => {
   const dispatch = useAppDispatch();
-  const resStatus = useAppSelector<isLoadingType>((state) => state.app.resStatus);
+  const isLoading = useAppSelector<boolean>((state) => state.app.isLoading);
 
   return (
     <>
@@ -22,7 +20,7 @@ export const Header = () => {
             <img src="src/features/Header#" alt="logo" />
           </div>
         </div>
-        {resStatus === "loading" && <ProgressBar />}
+        {isLoading && <ProgressBar />}
       </div>
     </>
   );

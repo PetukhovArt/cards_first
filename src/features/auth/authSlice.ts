@@ -9,16 +9,15 @@ import {
   UpdatePayloadType,
 } from "features/auth/authApi";
 import { createAppAsyncThunk } from "common/utils/create-app-async-thunk";
-import { appActions } from "features/app/appSlice";
+import { appActions, ErrorType } from "features/app/appSlice";
 import { AxiosError } from "axios";
+import { errorUtils } from "common/utils/error-utils";
+import app from "App";
 
 //THUNKS =================================================================================================
-const registerTC = createAppAsyncThunk(
-  "auth/register",
-  async (arg: RegPayloadType, thunkAPI) => {
-    const res = await authApi.register(arg);
-  }
-);
+const registerTC = createAppAsyncThunk("auth/register", async (arg: RegPayloadType, thunkAPI) => {
+  const res = await authApi.register(arg);
+});
 
 const loginTC = createAppAsyncThunk<{ profile: ProfileType }, LoginPayloadType>(
   "auth/login",
@@ -39,23 +38,15 @@ const updateUserTC = createAppAsyncThunk<{ profile: UpdatedProfileType }, Update
     return { profile: res.data };
   }
 );
-const isAuthTC = createAppAsyncThunk<{ profile: ProfileType }>(
+export const isAuthTC = createAppAsyncThunk<{ profile: ProfileType }>(
   "auth/isAuth",
   async (arg, thunkAPI) => {
     const { dispatch, rejectWithValue } = thunkAPI;
-    dispatch(appActions.setIsLoading({ resStatus: "loading" }));
     try {
       const res = await authApi.isAuth();
-      dispatch(appActions.setIsLoading({ resStatus: "success" }));
       return { profile: res.data };
-    } catch (error) {
-      dispatch(appActions.setIsLoading({ resStatus: "failed" }));
-      const e = error as AxiosError<{ error: string }>;
-      if (e.response && e.response.data && e.response.data.error) {
-        return rejectWithValue(e.response.data.error);
-      } else {
-        return rejectWithValue("Неизвестная ошибка");
-      }
+    } catch (e) {
+      return rejectWithValue(errorUtils(e as AxiosError<{ error: string }>));
     }
   }
 );
@@ -69,8 +60,8 @@ const slice = createSlice({
     isAuth: false,
   },
   reducers: {
-    // setProfile(state, action: PayloadAction<{ profile: ProfileType }>) {
-    //   state.profile = action.payload.profile;
+    // setErrorMessage: (state, action: PayloadAction<{ message: string }>) => {
+    //   state.errorMessage = action.payload.message;
     // },
   },
   extraReducers: (builder) => {
@@ -98,8 +89,8 @@ export const authActions = slice.actions;
 
 // Санки давайте упакуем в объект, нам это пригодится в дальнейшем
 export const authThunks = {
-  register: registerTC,
-  login: loginTC,
+  registerTC,
+  loginTC,
   updateUserTC,
   isAuthTC,
   logoutTC,

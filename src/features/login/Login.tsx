@@ -3,7 +3,7 @@ import c from "features/login/Login.module.scss";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { authThunks } from "features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "app/hooks";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ErrorMessage } from "@hookform/error-message";
 import { RootState } from "app/store";
 
@@ -24,10 +24,9 @@ export const Login = () => {
     formState: { errors },
   } = useForm<Inputs>({ criteriaMode: "all" });
   const emailRegex = /^\S+@\S+\.\S+$/;
-  const navigate = useNavigate();
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     dispatch(
-      authThunks.login({
+      authThunks.loginTC({
         email: data.email,
         password: data.password,
         rememberMe: data.rememberMe,
@@ -35,6 +34,7 @@ export const Login = () => {
     );
   };
 
+  const navigate = useNavigate();
   useEffect(() => {
     if (isAuth) {
       navigate("/profile");
@@ -65,9 +65,7 @@ export const Login = () => {
             name="email"
             render={({ messages }) => {
               return messages
-                ? Object.entries(messages).map(([type, message]) => (
-                    <p key={type}>{message}</p>
-                  ))
+                ? Object.entries(messages).map(([type, message]) => <p key={type}>{message}</p>)
                 : null;
             }}
           />
@@ -95,9 +93,7 @@ export const Login = () => {
             name="password"
             render={({ messages }) => {
               return messages
-                ? Object.entries(messages).map(([type, message]) => (
-                    <p key={type}>{message}</p>
-                  ))
+                ? Object.entries(messages).map(([type, message]) => <p key={type}>{message}</p>)
                 : null;
             }}
           />

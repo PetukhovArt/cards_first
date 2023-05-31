@@ -4,6 +4,7 @@ import { AppDispatch, RootState } from "app/store";
 export const createAppAsyncThunk = createAsyncThunk.withTypes<{
   state: RootState;
   dispatch: AppDispatch;
-  rejectValue: unknown;
+  rejectValue: string | null;
+  // rejectValue: unknown;
   // extra: { s: string; n: number }
 }>();

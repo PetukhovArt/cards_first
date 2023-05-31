@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import s from "features/profile/Profile.module.scss";
-import { SuperButton } from "common/SuperButton";
+import { SuperButton } from "components/super-button/SuperButton";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import LogoutIcon from "@mui/icons-material/Logout";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -8,14 +8,13 @@ import { RootState } from "app/store";
 import ava from "assets/images/ava.png";
 import { Navigate, useNavigate } from "react-router-dom";
 import { authThunks } from "features/auth/authSlice";
-import { EditableSpan } from "common/EditableSpan/EditableSpan";
+import { EditableSpan } from "components/EditableSpan/EditableSpan";
 import { IconButton } from "@mui/material";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 
 export const Profile = () => {
   const dispatch = useAppDispatch();
-  const user = useAppSelector((state: RootState) => state.auth.profile);
-  const isAuth = useAppSelector((state: RootState) => state.auth.isAuth);
+  const { profile, isAuth } = useAppSelector((state: RootState) => state.auth);
   const resStatus = useAppSelector((state: RootState) => state.app.resStatus);
 
   const onClickLogoutHandler = () => {
@@ -47,7 +46,7 @@ export const Profile = () => {
             <div className={s.avatarBlock}>
               <img
                 className={s.avatar}
-                src={user && user.avatar ? user.avatar : ava}
+                src={profile && profile.avatar ? profile.avatar : ava}
                 alt="userAva"
               />
               <IconButton className={s.photoIcon} aria-label="change photo">
@@ -55,12 +54,12 @@ export const Profile = () => {
               </IconButton>
             </div>
             <EditableSpan
-              value={user ? user.name : "User name"}
+              value={profile ? profile.name : "User name"}
               onChange={onChangeNameHandler}
               // disabled={props.taskEntityStatus === 'loading'}
               disabled={false}
             />
-            <span style={{ opacity: 0.5 }}>{user ? user.email : "example@mail.com"}</span>
+            <span style={{ opacity: 0.5 }}>{profile ? profile.email : "example@mail.com"}</span>
           </div>
           <SuperButton
             onClickCallBack={onClickLogoutHandler}

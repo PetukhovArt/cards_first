@@ -23,7 +23,6 @@ type Inputs = {
   email: string;
   password: string;
   rememberMe: boolean;
-  multipleErrorInput: string;
 };
 
 export const Login = () => {
@@ -67,14 +66,12 @@ export const Login = () => {
       <form onSubmit={handleSubmit(onSubmit)} className={c.formWrapper}>
         <FormControl>
           <FormLabel>
-            <h3>Cards</h3>
-            <span>Sign in</span>
+            <h3>Sign in</h3>
           </FormLabel>
           <FormGroup>
             <TextField
               label="Email"
-              // color="secondary"
-              variant="filled"
+              variant="outlined"
               margin={"normal"}
               {...register("email", {
                 required: "Email is required",
@@ -88,17 +85,10 @@ export const Login = () => {
                 },
               })}
             />
-            <ErrorMessage
-              errors={errors}
-              name="email"
-              render={({ messages }) => {
-                return messages
-                  ? Object.entries(messages).map(([type, message]) => <p key={type}>{message}</p>)
-                  : null;
-              }}
-            />
+            {errors.email && <p>{errors.email.message}</p>}
+
             <TextField
-              variant="filled"
+              variant="outlined"
               type={showPassword ? "text" : "password"}
               label="Password"
               margin={"normal"}
@@ -132,15 +122,8 @@ export const Login = () => {
                 ),
               }}
             />
-            <ErrorMessage
-              errors={errors}
-              name="password"
-              render={({ messages }) => {
-                return messages
-                  ? Object.entries(messages).map(([type, message]) => <p key={type}>{message}</p>)
-                  : null;
-              }}
-            />
+            {errors.password && <p>{errors.password.message}</p>}
+
             <div className={c.rememberMeBlock}>
               <FormControlLabel
                 className={c.checkBoxContainer}

@@ -15,14 +15,13 @@ import { SuperButton } from "components/super-button/SuperButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { RouteNames } from "routes/routes";
-import { instance } from "common/api/common.api";
+import { instance, instanceHeroku } from "common/api/common.api";
 import globalRouter from "common/globalRouter";
 
 type Inputs = {
   email: string;
   password: string;
   confirmPassword: string;
-  multipleErrorInput: string;
 };
 
 export const Register = () => {
@@ -43,8 +42,6 @@ export const Register = () => {
       })
     );
   };
-  // const { control } = useForm();
-  // const navigate = useNavigate();
   const [showPassword, setShowPassword] = React.useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -61,9 +58,9 @@ export const Register = () => {
   };
 
   //for redirect if response status == 201
-  instance.interceptors.response.use(function (response) {
+  instanceHeroku.interceptors.response.use(function (response) {
     if (response.status === 201 && globalRouter.navigate) {
-      globalRouter.navigate("/login");
+      globalRouter.navigate(RouteNames.LOGIN);
     }
     return response;
   });
@@ -73,8 +70,7 @@ export const Register = () => {
       <form onSubmit={handleSubmit(onSubmit)} className={c.formWrapper}>
         <FormControl>
           <FormLabel>
-            <h3>Cards</h3>
-            <span>Sign up</span>
+            <h3>Sign Up</h3>
           </FormLabel>
           <FormGroup>
             <TextField

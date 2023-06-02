@@ -1,16 +1,28 @@
 import React, { useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch } from "app/hooks";
 import { Header } from "features/Header/Header";
 import s from "./App.module.css";
 import { authThunks } from "features/auth/authSlice";
 import { ErrorSnackbar } from "components/error-snack-bar/ErrorSnackBar";
+import globalRouter from "common/globalRouter";
+import { RouteNames } from "routes/routes";
 
 function App() {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  globalRouter.navigate = navigate; //for redirect in components after response OK
+  // https://dev.to/davidbuc/how-to-use-router-inside-axios-interceptors-react-and-vue-5ece
 
   useEffect(() => {
-    dispatch(authThunks.isAuthTC());
+    dispatch(authThunks.isAuthTC())
+      .unwrap()
+      .then((res) => {
+        if (res.profile._id) {
+          navigate(RouteNames.PROFILE);
+        }
+      })
+      .catch((e) => console.log(e));
   }, []);
 
   return (
@@ -18,7 +30,7 @@ function App() {
       <ErrorSnackbar />
       <Header />
       <div className={s.main}>
-        <Outlet />
+        <Outlet /> {/*routes.tsx*/}
         {/*Outlet используется для рендеринга вложенных маршрутов внутри родительского маршрута*/}
       </div>
     </div>

@@ -1,5 +1,5 @@
 import Button from "@mui/material/Button";
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import React, { ReactNode } from "react";
 
 // EXAMPLE CALL with PROPS ===============
@@ -46,6 +46,19 @@ export const SuperButton = (props: ButtonPropsType) => {
     type,
   } = props;
 
+  const navigate = useNavigate();
+  const handleClick = () => {
+    //осуществляет вызов колбэка и переход на страницу если есть redirect в props
+    if (redirectPath) {
+      navigate(redirectPath);
+      // return <Navigate to={redirectPath} />; // format props : "/path"
+    }
+
+    if (onClickCallBack) {
+      onClickCallBack();
+    }
+  };
+
   const location = useLocation();
   const isActive = (redirectPath: string | undefined) => {
     if (redirectPath) {
@@ -53,16 +66,6 @@ export const SuperButton = (props: ButtonPropsType) => {
     }
     // роут из пропсов === текущему пути URL на котором находимся
     // для подкрашивания кнопки в стиль "contained"
-  };
-
-  const handleClick = () => {
-    //осуществляет вызов колбэка и переход на страницу если есть redirect в props
-    if (onClickCallBack) {
-      onClickCallBack();
-    }
-    if (redirectPath) {
-      return <Navigate to={redirectPath} />; // format props : "/path"
-    }
   };
 
   return (

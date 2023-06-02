@@ -3,11 +3,17 @@ import { useAppDispatch, useAppSelector } from "app/hooks";
 import s from "features/Header/Header.module.scss";
 import { ProgressBar } from "features/app/ProgressBar/ProgressBar";
 import Button from "@mui/material/Button";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
+import { SuperButton } from "components/super-button/SuperButton";
+import { RouteNames } from "routes/routes";
+import ava from "../../assets/images/ava.png";
 
 export const Header = () => {
-  const dispatch = useAppDispatch();
   const isLoading = useAppSelector<boolean>((state) => state.app.isLoading);
+  const user = useAppSelector((state) => state.auth.profile);
+
+  const location = useLocation();
+  const profilePage = location.pathname === RouteNames.PROFILE;
 
   return (
     <>
@@ -16,15 +22,19 @@ export const Header = () => {
           <div>
             <h1>Cards</h1>
           </div>
-          <div className={s.actions}>
-            {/*<Button component={Link} to="/about">*/}
-            {/*  Go to About page*/}
-            {/*</Button>*/}
-            <Button variant={"contained"}> Sign In </Button>
-            {/*<Button variant={"contained"}> Sign Up </Button>*/}
-            {/*<span>nick</span>*/}
-            {/*<img src="src/features/Header#" alt="logo" />*/}
-          </div>
+          {!profilePage && ( //если страница профайл , то кнопку не показывать
+            <div className={s.actions}>
+              <SuperButton name={"Sign In"} redirectPath={RouteNames.LOGIN} />
+            </div>
+          )}
+          {profilePage && (
+            <div className={s.actions}>
+              <div className={s.userName}>{user && user.name ? user.name : "user"}</div>
+              <div className={s.avatar}>
+                <img src={user && user.avatar ? user.avatar : ava} alt="userAva" />
+              </div>
+            </div>
+          )}
         </div>
         {isLoading && <ProgressBar />}
       </div>

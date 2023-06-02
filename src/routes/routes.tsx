@@ -23,7 +23,7 @@ export enum RouteNames {
   LOGIN = "/login",
   REGISTER = "/register",
   CHECK_EMAIL = "/check-email",
-  NEW_PASSWORD = "/set-new-password",
+  SET_NEW_PASSWORD = "/set-new-password",
   FORGOT_PASSWORD = "/forgot-password",
   PROFILE = "/profile",
   PACKS = "/packs",
@@ -39,52 +39,11 @@ export const router = createHashRouter(
       <Route path={RouteNames.LOGIN} element={<Login />} />
       <Route path={RouteNames.REGISTER} element={<Register />} />
       <Route path={RouteNames.CHECK_EMAIL} element={<CheckEmail />} />
-      <Route path={RouteNames.NEW_PASSWORD} element={<SetNewPassword />} />
+      <Route path={RouteNames.SET_NEW_PASSWORD} element={<SetNewPassword />} />
+      <Route path={`${RouteNames.SET_NEW_PASSWORD}/:token`} element={<SetNewPassword />} />
       <Route path={RouteNames.FORGOT_PASSWORD} element={<ForgotPassword />} />
       <Route path={RouteNames.PACKS} element={<Packs />} />
       <Route path={RouteNames.LEARN} element={<Learn />} />
     </Route>
   )
 );
-
-// export const router = createHashRouter([
-//   //createBrowserRouter
-//   //createHashRouter  if use GitHub pages
-//   {
-//     path: RouteNames.START_PAGE,
-//     element: <Packs />,
-//     errorElement: <ErrorPage />,
-//   },
-//   {
-//     path: RouteNames.PROFILE,
-//     element: <Profile />,
-//   },
-//   {
-//     path: RouteNames.LOGIN,
-//     element: <Login />,
-//   },
-//   {
-//     path: RouteNames.REGISTER,
-//     element: <Register />,
-//   },
-//   {
-//     path: RouteNames.CHECK_EMAIL,
-//     element: <CheckEmail />,
-//   },
-//   {
-//     path: RouteNames.NEW_PASSWORD,
-//     element: <SetNewPassword />,
-//   },
-//   {
-//     path: RouteNames.FORGOT_PASSWORD,
-//     element: <ForgotPassword />,
-//   },
-//   {
-//     path: RouteNames.PACKS,
-//     element: <Packs />,
-//   },
-//   {
-//     path: RouteNames.LEARN,
-//     element: <Learn />,
-//   },
-// ]);

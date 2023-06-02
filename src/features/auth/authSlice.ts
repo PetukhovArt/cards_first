@@ -1,10 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   authApi,
+  ForgotPayloadType,
+  ForgotResType,
   LoginPayloadType,
   LogoutResType,
   ProfileType,
   RegPayloadType,
+  SetNewPasswordPayLoadType,
   UpdatedProfileType,
   UpdatePayloadType,
 } from "features/auth/authApi";
@@ -18,6 +21,15 @@ const registerTC = createAppAsyncThunk("auth/register", async (arg: RegPayloadTy
   const { rejectWithValue } = thunkAPI;
   try {
     const res = await authApi.register(arg);
+    return { res };
+  } catch (e) {
+    return rejectWithValue(errorUtils(e as AxiosError<{ error: string }>));
+  }
+});
+const forgotTC = createAppAsyncThunk("auth/forgot", async (arg: ForgotPayloadType, thunkAPI) => {
+  const { rejectWithValue } = thunkAPI;
+  try {
+    const res = await authApi.forgot(arg);
     return { res };
   } catch (e) {
     return rejectWithValue(errorUtils(e as AxiosError<{ error: string }>));
@@ -73,6 +85,19 @@ export const isAuthTC = createAppAsyncThunk<{ profile: ProfileType }>(
   }
 );
 
+export const setPasswordTC = createAppAsyncThunk(
+  "auth/isAuth",
+  async (arg: SetNewPasswordPayLoadType, thunkAPI) => {
+    const { rejectWithValue } = thunkAPI;
+    try {
+      const res = await authApi.setNewPassword(arg);
+      return { res };
+    } catch (e) {
+      return rejectWithValue(errorUtils(e as AxiosError<{ error: string }>));
+    }
+  }
+);
+
 //REDUCER =================================================================================================
 
 const authInitialState = {
@@ -118,4 +143,6 @@ export const authThunks = {
   updateUserTC,
   isAuthTC,
   logoutTC,
+  forgotTC,
+  setPasswordTC,
 };

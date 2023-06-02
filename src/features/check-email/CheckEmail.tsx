@@ -1,3 +1,22 @@
+import c from "features/check-email/styles.module.scss";
+import React from "react";
+import { SuperButton } from "components/super-button/SuperButton";
+import { RouteNames } from "routes/routes";
+import MarkEmailReadIcon from "@mui/icons-material/MarkEmailRead";
+
 export const CheckEmail = () => {
-  return <>Check Email</>;
+  return (
+    <div className={`container ${c.formContainer}`}>
+      <div className={c.formWrapper}>
+        <h3>Check Email</h3>
+        <MarkEmailReadIcon color={"primary"} sx={{ fontSize: "100px" }} />
+        <div className={c.description}>
+          We’ve sent an Email with instructions to example@mail.com
+        </div>
+        <div className={c.actions}>
+          <SuperButton name={"Back to login"} redirectPath={RouteNames.LOGIN} />
+        </div>
+      </div>
+    </div>
+  );
 };

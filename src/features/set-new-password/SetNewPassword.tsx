@@ -1,35 +1,59 @@
-import c from "features/forgot-password/Forgot.module.scss";
+import c from "features/set-new-password/styles.module.scss";
+import React, { useEffect } from "react";
+import { SuperButton } from "components/super-button/SuperButton";
+import { RouteNames } from "routes/routes";
+import MarkEmailReadIcon from "@mui/icons-material/MarkEmailRead";
+import { useAppDispatch, useAppSelector } from "app/hooks";
+import { RootState } from "app/store";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { authThunks, setPasswordTC } from "features/auth/authSlice";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import FormGroup from "@mui/material/FormGroup";
 import TextField from "@mui/material/TextField";
-import { NavLink, useNavigate } from "react-router-dom";
-import { RouteNames } from "routes/routes";
-import { SuperButton } from "components/super-button/SuperButton";
-import React, { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "app/hooks";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { authThunks } from "features/auth/authSlice";
+import InputAdornment from "@mui/material/InputAdornment";
+import IconButton from "@mui/material/IconButton";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import Visibility from "@mui/icons-material/Visibility";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 
 type Inputs = {
-  email: string;
+  password: string;
 };
-
 export const SetNewPassword = () => {
+  const { token } = useParams();
+
   const dispatch = useAppDispatch();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>({ criteriaMode: "all" });
-  const regexEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+  const regexPassword = /[A-Za-z0-9]{8,}/;
+  const navigate = useNavigate();
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log("forgot");
-    // dispatch(
-    //   authThunks.loginTC({
-    //     email: data.email,
-    //   })
-    // );
+    dispatch(
+      authThunks.setPasswordTC({
+        password: data.password,
+        resetPasswordToken: token ? token : "no token",
+      })
+    )
+      .unwrap()
+      .then((res) => {
+        if (res.res.data.info) {
+          navigate(RouteNames.LOGIN);
+        }
+      });
+  };
+
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
   };
 
   return (
@@ -37,33 +61,51 @@ export const SetNewPassword = () => {
       <form onSubmit={handleSubmit(onSubmit)} className={c.formWrapper}>
         <FormControl>
           <FormLabel>
-            <h3>Forgot your password?</h3>
+            <h3>Create new password</h3>
           </FormLabel>
           <FormGroup>
             <TextField
-              label="Email"
-              // color="secondary"
-              variant="filled"
+              variant="outlined"
+              type={showPassword ? "text" : "password"}
+              label="Password"
               margin={"normal"}
-              {...register("email", {
+              {...register("password", {
+                required: "Password required",
                 pattern: {
-                  value: regexEmail,
-                  message: "Email format is wrong",
+                  value: regexPassword,
+                  message: "Password length must be > 8",
+                },
+                minLength: {
+                  value: 5,
+                  message: "Min. 5 symbols",
                 },
                 maxLength: {
-                  value: 50,
-                  message: "Максимум 50 символов",
+                  value: 20,
+                  message: "Max. 20 symbols",
                 },
               })}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
-            <span>Enter your email address and we will send you further instructions </span>
+            {errors.password && <p>{errors.password.message}</p>}
 
+            <div className={c.description}>
+              Create new password and we will send you further instructions to email
+            </div>
             <div className={c.actions}>
-              <SuperButton name="Send Instructions" type={"submit"} borderRadius={"5px"} />
-              <span className={c.question}>Did you remember your password?</span>
-              <NavLink to={RouteNames.LOGIN} className={c.linkRegister}>
-                Try logging in
-              </NavLink>
+              <SuperButton name={"Create new password"} type={"submit"} />
             </div>
           </FormGroup>
         </FormControl>

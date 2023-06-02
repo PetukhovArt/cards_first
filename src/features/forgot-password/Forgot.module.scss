@@ -3,17 +3,25 @@
 
 .formContainer {
   @include flex-block(flex, column, center, center);
+  width: 360px;
   height: 100%;
   .formWrapper {
     display: flex;
     justify-content: center;
     align-items: center;
     background: white;
-    width: 360px;
-    padding-top: 30px;
-    padding-bottom: 30px;
+    padding: 40px;
     border-radius: 10px;
     text-align: center;
+    .description {
+      margin-top: 10px;
+      text-align: left;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 24px;
+      color: #000000;
+      opacity: 0.5;
+    }
     label {
       font-size: 14px;
     }
@@ -22,8 +30,8 @@
       font-style: normal;
       font-weight: 600;
       font-size: 26px;
-      line-height: 32px;
       margin: 0;
+      margin-bottom: 35px;
       padding: 0;
     }
     p {
@@ -35,35 +43,14 @@
       display: inline;
       content: "⚠ ";
     }
-    .checkBoxContainer {
-      margin-left: 30px;
-      padding: 6px;
-    }
-    .rememberMeBlock {
+    .actions {
+      margin-top: 50px;
       display: flex;
-      justify-content: left;
-      label {
-        padding: 10px 0;
-        margin: 0;
-        font-weight: 500;
-        span {
-          padding: 0 5px 0 0;
-          font-size: 14px;
-          line-height: 17px;
-        }
-      }
-    }
-    .forgotWrapper {
-      display: flex;
-      margin-bottom: 40px;
-      justify-content: right;
-      .linkForgot {
-      }
+      flex-direction: column;
     }
 
     .question {
-      margin-top: 20px;
-      margin-bottom: 10px;
+      margin-top: 30px;
       font-style: normal;
       font-weight: 600;
       font-size: 14px;
@@ -73,6 +60,13 @@
       opacity: 0.5;
     }
     .linkRegister {
+      margin-top: 10px;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 24px;
+      text-align: center;
+      text-decoration-line: underline;
+      color: #366eff;
     }
   }
 }

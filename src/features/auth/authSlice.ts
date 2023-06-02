@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   authApi,
   ForgotPayloadType,
-  ForgotResType,
   LoginPayloadType,
   LogoutResType,
   ProfileType,
@@ -14,6 +13,7 @@ import {
 import { createAppAsyncThunk } from "common/utils/create-app-async-thunk";
 import { AxiosError } from "axios";
 import { errorUtils } from "common/utils/error-utils";
+import { toast } from "react-toastify";
 
 //THUNKS =================================================================================================
 
@@ -21,6 +21,7 @@ const registerTC = createAppAsyncThunk("auth/register", async (arg: RegPayloadTy
   const { rejectWithValue } = thunkAPI;
   try {
     const res = await authApi.register(arg);
+    toast.success("🦄  Registration successful!");
     return { res };
   } catch (e) {
     return rejectWithValue(errorUtils(e as AxiosError<{ error: string }>));
@@ -42,6 +43,7 @@ const loginTC = createAppAsyncThunk<{ profile: ProfileType }, LoginPayloadType>(
     const { rejectWithValue } = thunkAPI;
     try {
       const res = await authApi.login(arg);
+      toast.success("🦄  Login successful!");
       return { profile: res.data };
     } catch (e) {
       return rejectWithValue(errorUtils(e as AxiosError<{ error: string }>));
@@ -53,6 +55,7 @@ const logoutTC = createAppAsyncThunk<LogoutResType>("auth/logout", async (arg, t
   const { rejectWithValue } = thunkAPI;
   try {
     const res = await authApi.logout();
+    toast.success("🦄  Logout successful!");
     return res.data;
   } catch (e) {
     return rejectWithValue(errorUtils(e as AxiosError<{ error: string }>));

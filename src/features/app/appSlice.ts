@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 
 export type ErrorType = string | null | undefined;
 
@@ -41,7 +42,8 @@ const slice = createSlice({
         },
         (state, action) => {
           state.isLoading = false; // убираем лоадер
-          state.error = action.payload; // передаем значение ошибки в снакбар
+          toast.error(action.payload);
+          // state.error = action.payload; // передаем значение ошибки в снакбар
         }
       );
   },

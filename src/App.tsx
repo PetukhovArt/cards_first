@@ -7,6 +7,8 @@ import { authThunks } from "features/auth/authSlice";
 import { ErrorSnackbar } from "components/error-snack-bar/ErrorSnackBar";
 import globalRouter from "common/globalRouter";
 import { RouteNames } from "routes/routes";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -22,12 +24,24 @@ function App() {
           navigate(RouteNames.PROFILE);
         }
       })
-      .catch((e) => console.log(e));
+      .catch((e) => console.error(e));
   }, []);
 
   return (
     <div className={s.appWrapper}>
-      <ErrorSnackbar />
+      <ToastContainer
+        position="bottom-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+      {/*<ErrorSnackbar />*/}
       <Header />
       <div className={s.main}>
         <Outlet /> {/*routes.tsx*/}

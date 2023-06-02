@@ -1,5 +1,4 @@
 @import "src/common/styles/mixins.scss";
-//
 
 .formContainer {
   @include flex-block(flex, column, center, center);
@@ -73,6 +72,10 @@
       text-align: center;
       color: #000000;
       opacity: 0.5;
+    }
+    .actions {
+      @include flex-block(flex, column, center, center);
+      margin-top: 30px;
     }
   }
 }

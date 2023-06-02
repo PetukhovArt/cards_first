@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import {
   authApi,
   LoginPayloadType,
@@ -9,14 +9,19 @@ import {
   UpdatePayloadType,
 } from "features/auth/authApi";
 import { createAppAsyncThunk } from "common/utils/create-app-async-thunk";
-import { appActions, ErrorType } from "features/app/appSlice";
 import { AxiosError } from "axios";
 import { errorUtils } from "common/utils/error-utils";
-import app from "App";
 
 //THUNKS =================================================================================================
+
 const registerTC = createAppAsyncThunk("auth/register", async (arg: RegPayloadType, thunkAPI) => {
-  const res = await authApi.register(arg);
+  const { rejectWithValue } = thunkAPI;
+  try {
+    const res = await authApi.register(arg);
+    return { res };
+  } catch (e) {
+    return rejectWithValue(errorUtils(e as AxiosError<{ error: string }>));
+  }
 });
 
 const loginTC = createAppAsyncThunk<{ profile: ProfileType }, LoginPayloadType>(
@@ -29,20 +34,32 @@ const loginTC = createAppAsyncThunk<{ profile: ProfileType }, LoginPayloadType>(
     } catch (e) {
       return rejectWithValue(errorUtils(e as AxiosError<{ error: string }>));
     }
-    // возвращаем данные из санки, упаковываем в объект, используем в extraReducers
   }
 );
-const logoutTC = createAppAsyncThunk<LogoutResType>("auth/logout", async (arg) => {
-  const res = await authApi.logout();
-  return res.data;
+
+const logoutTC = createAppAsyncThunk<LogoutResType>("auth/logout", async (arg, thunkAPI) => {
+  const { rejectWithValue } = thunkAPI;
+  try {
+    const res = await authApi.logout();
+    return res.data;
+  } catch (e) {
+    return rejectWithValue(errorUtils(e as AxiosError<{ error: string }>));
+  }
 });
+
 const updateUserTC = createAppAsyncThunk<{ profile: UpdatedProfileType }, UpdatePayloadType>(
   "profile/updateUser",
   async (arg, thunkAPI) => {
-    const res = await authApi.updateUser(arg);
-    return { profile: res.data };
+    const { rejectWithValue } = thunkAPI;
+    try {
+      const res = await authApi.updateUser(arg);
+      return { profile: res.data };
+    } catch (e) {
+      return rejectWithValue(errorUtils(e as AxiosError<{ error: string }>));
+    }
   }
 );
+
 export const isAuthTC = createAppAsyncThunk<{ profile: ProfileType }>(
   "auth/isAuth",
   async (arg, thunkAPI) => {
@@ -58,12 +75,14 @@ export const isAuthTC = createAppAsyncThunk<{ profile: ProfileType }>(
 
 //REDUCER =================================================================================================
 
+const authInitialState = {
+  profile: null as ProfileType | null,
+  isAuth: false,
+};
+
 const slice = createSlice({
   name: "auth",
-  initialState: {
-    profile: null as ProfileType | null,
-    isAuth: false,
-  },
+  initialState: authInitialState,
   reducers: {
     // setErrorMessage: (state, action: PayloadAction<{ message: string }>) => {
     //   state.errorMessage = action.payload.message;

@@ -1,131 +1,173 @@
-import { useAppDispatch } from "app/hooks";
-import { authThunks } from "features/auth/authSlice";
-import { useNavigate } from "react-router-dom";
-import { SubmitHandler, useForm } from "react-hook-form";
-import c from "features/login/Login.module.scss";
-import { ErrorMessage } from "@hookform/error-message";
 import React from "react";
+import c from "features/register/Register.module.scss";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { authThunks } from "features/auth/authSlice";
+import { useAppDispatch, useAppSelector } from "app/hooks";
+import { NavLink, useNavigate } from "react-router-dom";
+import { RootState } from "app/store";
+import FormControl from "@mui/material/FormControl";
+import FormGroup from "@mui/material/FormGroup";
+import FormLabel from "@mui/material/FormLabel";
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import TextField from "@mui/material/TextField";
+import { SuperButton } from "components/super-button/SuperButton";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { RouteNames } from "routes/routes";
+import { instance } from "common/api/common.api";
+import globalRouter from "common/globalRouter";
 
 type Inputs = {
   email: string;
   password: string;
-  confirm: string;
+  confirmPassword: string;
   multipleErrorInput: string;
 };
 
 export const Register = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const regexPassword = /[A-Za-z0-9]{8,}/;
-  const regexEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
-
   const {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm<Inputs>({ criteriaMode: "all" });
-  const emailRegex = /^\S+@\S+\.\S+$/;
+  const regexPassword = /[A-Za-z0-9]{8,}/;
+  const regexEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    dispatch(authThunks.registerTC({ email: "s1abak38@gmail.com", password: "Grebeshok123" }));
-    // dispatch(
-    //   authThunks.login({
-    //     email: data.email,
-    //     password: data.password,
-    //     confirm: data.confirm,
-    //   })
-    // );
+    dispatch(
+      authThunks.registerTC({
+        email: data.email,
+        password: data.password,
+      })
+    );
+  };
+  // const { control } = useForm();
+  // const navigate = useNavigate();
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
   };
 
+  const password = watch("password");
+  const validateConfirmPassword = (value: string) => {
+    if (value !== password) {
+      return "Passwords do not match";
+    }
+  };
+
+  //for redirect if response status == 201
+  instance.interceptors.response.use(function (response) {
+    if (response.status === 201 && globalRouter.navigate) {
+      globalRouter.navigate("/login");
+    }
+    return response;
+  });
+
   return (
-    <div className={c.container}>
-      <div className={c.loginForm}>
-        <form onSubmit={handleSubmit(onSubmit)} className={c.formWrapper}>
-          <h1>Регистрация</h1>
-          <input
-            {...register("email", {
-              required: "Ввод почты обязателен (ваша почта)",
-              pattern: {
-                value: emailRegex,
-                message: "Некорректный формат почты",
-              },
-              maxLength: {
-                value: 50,
-                message: "Максимум 50 символов",
-              },
-            })}
-          />
+    <div className={`container ${c.formContainer}`}>
+      <form onSubmit={handleSubmit(onSubmit)} className={c.formWrapper}>
+        <FormControl>
+          <FormLabel>
+            <h3>Cards</h3>
+            <span>Sign up</span>
+          </FormLabel>
+          <FormGroup>
+            <TextField
+              label="Email"
+              variant="outlined"
+              margin={"normal"}
+              {...register("email", {
+                required: "Email is required",
+                pattern: {
+                  value: regexEmail,
+                  message: "Email format is wrong",
+                },
+                maxLength: {
+                  value: 50,
+                  message: "Max. 50 symbols",
+                },
+              })}
+            />
+            {errors.email && <p>{errors.email.message}</p>}
 
-          <ErrorMessage
-            errors={errors}
-            name="email"
-            render={({ messages }) => {
-              return messages
-                ? Object.entries(messages).map(([type, message]) => <p key={type}>{message}</p>)
-                : null;
-            }}
-          />
+            <TextField
+              variant="outlined"
+              type={showPassword ? "text" : "password"}
+              label="Password"
+              margin={"normal"}
+              {...register("password", {
+                required: "Password required",
+                pattern: {
+                  value: regexPassword,
+                  message: "Password length must be > 8",
+                },
+                minLength: {
+                  value: 5,
+                  message: "Min. 5 symbols",
+                },
+                maxLength: {
+                  value: 20,
+                  message: "Max. 20 symbols",
+                },
+              })}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+            {errors.password && <p>{errors.password.message}</p>}
 
-          <input
-            type="password"
-            {...register("password", {
-              required: "Ввод пароля обязателен",
-              // pattern: {
-              //     value: /\d+/,
-              //     message: 'This input is number only.'
-              // },
-              minLength: {
-                value: 5,
-                message: "Минимум 5 символов",
-              },
-              maxLength: {
-                value: 20,
-                message: "Максимум 20 символов",
-              },
-            })}
-          />
-          <ErrorMessage
-            errors={errors}
-            name="password"
-            render={({ messages }) => {
-              return messages
-                ? Object.entries(messages).map(([type, message]) => <p key={type}>{message}</p>)
-                : null;
-            }}
-          />
-          {/*<label htmlFor="rememberMe">Remember me</label>*/}
-          {/*<input id="rememberMe" type="checkbox" {...register("rememberMe")} />*/}
+            <TextField
+              variant="outlined"
+              type={showPassword ? "text" : "password"}
+              label="Confirm Password"
+              margin={"normal"}
+              {...register("confirmPassword", {
+                required: "Confirmation required",
+                validate: validateConfirmPassword,
+              })}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+            {errors.confirmPassword && <p>{errors.confirmPassword.message}</p>}
 
-          <input
-            type="password"
-            {...register("confirm", {
-              required: "Подтверждение пароля обязательно",
-              // pattern: {
-              //     value: /\d+/,
-              //     message: 'This input is number only.'
-              // },
-              minLength: {
-                value: 5,
-                message: "Минимум 5 символов",
-              },
-              maxLength: {
-                value: 20,
-                message: "Максимум 20 символов",
-              },
-            })}
-          />
-          <ErrorMessage
-            errors={errors}
-            name="confirm"
-            render={({ messages }) => {
-              return messages
-                ? Object.entries(messages).map(([type, message]) => <p key={type}>{message}</p>)
-                : null;
-            }}
-          />
-
-          <input type="submit" />
-        </form>
-      </div>
+            <div className={c.actions}>
+              <SuperButton name="Sign Up" type={"submit"} borderRadius={"5px"} width={"150px"} />
+              <span className={c.dontHave}>Already have an account?</span>
+              <NavLink to={RouteNames.LOGIN} className={c.link}>
+                Sign In
+              </NavLink>
+            </div>
+          </FormGroup>
+        </FormControl>
+      </form>
     </div>
   );
 };

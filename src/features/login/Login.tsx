@@ -110,11 +110,11 @@ export const Login = () => {
                 },
                 minLength: {
                   value: 5,
-                  message: "Min 5 symbols",
+                  message: "Min. 5 symbols",
                 },
                 maxLength: {
                   value: 20,
-                  message: "Max 20 symbols",
+                  message: "Max. 20 symbols",
                 },
               })}
               InputProps={{

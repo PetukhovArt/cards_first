@@ -7,6 +7,8 @@ import "./index.css";
 import { store } from "app/store";
 import { Provider } from "react-redux";
 import { createTheme, ThemeProvider } from "@mui/material";
+import { HashRouter, RouterProvider } from "react-router-dom";
+import { router } from "routes/routes";
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
@@ -14,7 +16,8 @@ const theme = createTheme();
 root.render(
   <Provider store={store}>
     <ThemeProvider theme={theme}>
-      <App />
+      {/*<App />*/}
+      <RouterProvider router={router} />
     </ThemeProvider>
   </Provider>
 );

@@ -1,4 +1,28 @@
 import { instance } from "common/api/common.api";
+import axios from "axios";
+
+export const authApi = {
+  register: (data: RegPayloadType) => {
+    return instance.post<{ addedUser: ProfileType }>("auth/register", data);
+  },
+  login: (data: LoginPayloadType) => {
+    return instance.post<ProfileType>("auth/login", data);
+  },
+  isAuth: () => {
+    return instance.post<ProfileType>("auth/me");
+  },
+  logout: () => {
+    return instance.delete<LogoutResType>("auth/me");
+  },
+  restorePassword: (data: RestorePayloadType) => {
+    return instance.post("auth/forgot");
+  },
+  updateUser: (data: UpdatePayloadType) => {
+    return instance.put<UpdatedProfileType>("auth/me", data);
+  },
+};
+
+//TYPES==========//TYPES==========//TYPES==========//TYPES==========//TYPES==========//TYPES==========
 
 export type RegPayloadType = Omit<LoginPayloadType, "rememberMe">;
 export type LoginPayloadType = {
@@ -38,25 +62,4 @@ export type UpdatePayloadType = {
 export type LogoutResType = {
   info: string;
   error: string;
-};
-
-export const authApi = {
-  register: (data: RegPayloadType) => {
-    return instance.post<{ addedUser: ProfileType }>("auth/register", data);
-  },
-  login: (data: LoginPayloadType) => {
-    return instance.post<ProfileType>("auth/login", data);
-  },
-  isAuth: () => {
-    return instance.post<ProfileType>("auth/me");
-  },
-  logout: () => {
-    return instance.delete<LogoutResType>("auth/me");
-  },
-  restorePassword: (data: RestorePayloadType) => {
-    return instance.post("auth/forgot");
-  },
-  updateUser: (data: UpdatePayloadType) => {
-    return instance.put<UpdatedProfileType>("auth/me", data);
-  },
 };

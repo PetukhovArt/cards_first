@@ -2,6 +2,8 @@ import React from "react";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import s from "features/Header/Header.module.scss";
 import { ProgressBar } from "features/app/ProgressBar/ProgressBar";
+import Button from "@mui/material/Button";
+import { Link, NavLink } from "react-router-dom";
 
 export const Header = () => {
   const dispatch = useAppDispatch();
@@ -15,9 +17,13 @@ export const Header = () => {
             <h1>Cards</h1>
           </div>
           <div className={s.actions}>
-            <button> to smth</button>
-            <span>nick</span>
-            <img src="src/features/Header#" alt="logo" />
+            {/*<Button component={Link} to="/about">*/}
+            {/*  Go to About page*/}
+            {/*</Button>*/}
+            <Button variant={"contained"}> Sign In </Button>
+            {/*<Button variant={"contained"}> Sign Up </Button>*/}
+            {/*<span>nick</span>*/}
+            {/*<img src="src/features/Header#" alt="logo" />*/}
           </div>
         </div>
         {isLoading && <ProgressBar />}

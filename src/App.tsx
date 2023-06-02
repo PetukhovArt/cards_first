@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
-import { RouterProvider } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { useAppDispatch } from "app/hooks";
-import { router } from "routes/routes";
 import { Header } from "features/Header/Header";
 import s from "./App.module.css";
 import { authThunks } from "features/auth/authSlice";
@@ -19,7 +18,8 @@ function App() {
       <ErrorSnackbar />
       <Header />
       <div className={s.main}>
-        <RouterProvider router={router} />
+        <Outlet />
+        {/*Outlet используется для рендеринга вложенных маршрутов внутри родительского маршрута*/}
       </div>
     </div>
   );

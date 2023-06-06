@@ -6,16 +6,16 @@ import {
   Navigate,
   Route,
 } from "react-router-dom";
-import { Profile } from "features/profile/Profile";
+import { Profile } from "features/user/profile/Profile";
 import ErrorPage from "common/error-page/ErrorPage";
-import { Login } from "features/login/Login";
-import { Register } from "features/register/Register";
-import { CheckEmail } from "features/check-email/CheckEmail";
-import { SetNewPassword } from "features/set-new-password/SetNewPassword";
-import { ForgotPassword } from "features/forgot-password/ForgotPassword";
+import { Login } from "features/user/login/Login";
+import { Register } from "features/user/register/Register";
+import { CheckEmail } from "features/user/check-email/CheckEmail";
+import { SetNewPassword } from "features/user/set-new-password/SetNewPassword";
+import { ForgotPassword } from "features/user/forgot-password/ForgotPassword";
 import { Packs } from "features/packs/Packs";
 import { Learn } from "features/learn/Learn";
-import App from "App";
+import App from "app/App";
 
 export enum RouteNames {
   START_PAGE = "/",

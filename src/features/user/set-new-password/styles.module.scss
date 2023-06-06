@@ -1,0 +1,58 @@
+@import "../../../common/styles/mixins";
+//
+
+.formContainer {
+  @include flex-block(flex, column, center, center);
+  width: 360px;
+  height: 100%;
+  .formWrapper {
+    @include flex-block(flex, column, center, center);
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+    text-align: center;
+    label {
+      font-size: 14px;
+    }
+    h3 {
+      color: #000000;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 26px;
+      line-height: 32px;
+      margin: 0;
+      padding: 0;
+    }
+    p {
+      color: #bf1650;
+      margin: 4px 0 0;
+      padding: 0;
+    }
+    p::before {
+      display: inline;
+      content: "⚠ ";
+    }
+
+    .description {
+      margin-top: 10px;
+      text-align: left;
+      font-size: 14px;
+      line-height: 24px;
+      color: #000000;
+      opacity: 0.5;
+    }
+    h3 {
+      color: #000000;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 26px;
+      margin: 0 0 35px;
+      padding: 0;
+    }
+    .actions {
+      margin-top: 30px;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}

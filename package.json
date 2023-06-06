@@ -10,6 +10,7 @@
     "@hookform/error-message": "^2.0.1",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.13.2",
+    "@mui/x-data-grid": "^6.6.0",
     "@radix-ui/colors": "^0.1.8",
     "@radix-ui/react-progress": "^1.0.3",
     "@radix-ui/react-toolbar": "^1.0.4",

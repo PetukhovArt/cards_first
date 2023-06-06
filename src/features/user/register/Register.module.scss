@@ -1,0 +1,79 @@
+@import "../../../common/styles/mixins";
+
+.formContainer {
+  @include flex-block(flex, column, center, center);
+  height: 100%;
+  .formWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    width: 360px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    border-radius: 10px;
+    text-align: center;
+    label {
+      font-size: 14px;
+    }
+    h3 {
+      color: #000000;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 26px;
+      line-height: 32px;
+      margin: 0;
+      padding: 0;
+    }
+    p {
+      color: #bf1650;
+      margin: 4px 0 0;
+      padding: 0;
+    }
+    p::before {
+      display: inline;
+      content: "⚠ ";
+    }
+    .checkBoxContainer {
+      margin-left: 30px;
+      padding: 6px;
+    }
+    .rememberMeBlock {
+      display: flex;
+      justify-content: left;
+      label {
+        padding: 10px 0;
+        margin: 0;
+        font-weight: 500;
+        span {
+          padding: 0 5px 0 0;
+          font-size: 14px;
+          line-height: 17px;
+        }
+      }
+    }
+    .forgotWrapper {
+      display: flex;
+      margin-bottom: 40px;
+      justify-content: right;
+      .linkForgot {
+      }
+    }
+
+    .dontHave {
+      margin-top: 20px;
+      margin-bottom: 10px;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 24px;
+      text-align: center;
+      color: #000000;
+      opacity: 0.5;
+    }
+    .actions {
+      @include flex-block(flex, column, center, center);
+      margin-top: 30px;
+    }
+  }
+}

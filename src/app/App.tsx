@@ -10,31 +10,28 @@ import "react-toastify/dist/ReactToastify.css";
 import { useAppDispatch } from "common/hooks/useAppDispatch";
 import { useAppSelector } from "common/hooks/useAppSelector";
 import { RootState } from "app/store";
+import { ProgressBar } from "app/ProgressBar/ProgressBar";
+import { BearLoader } from "app/BearLoader/BearLoader";
 
 function App() {
   const isAuth = useAppSelector((state: RootState) => state.user.isAuth);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  globalRouter.navigate = navigate; //for redirect (by axios Interceptor) in components after response OK
+  // globalRouter.navigate = navigate; //for redirect (by axios Interceptor) in components after response OK
   // https://dev.to/davidbuc/how-to-use-router-inside-axios-interceptors-react-and-vue-5ece
 
-  // useEffect(() => {
-  //   console.log("App useeffect for isAuth");
-  //   if (!isAuth) {
-  //     dispatch(userThunks.isAuthTC())
-  //       .unwrap()
-  //       .then((res) => {
-  //         if (res.profile._id) {
-  //           navigate(RouteNames.PACKS);
-  //         }
-  //       })
-  //       .catch((e) => console.error(e));
-  //   }
-  // }, [isAuth]);
+  useEffect(() => {
+    console.log("App useeffect for isAuth");
+    dispatch(userThunks.isAuthTC())
+      .unwrap()
+      .then(() => console.log("authorized"))
+      .catch((e) => {
+        navigate(RouteNames.LOGIN);
+      });
+  }, []);
 
   return (
     <div className={s.appWrapper}>
-      {/*<GlobalErrorBar />*/}
       <ToastContainer
         position="bottom-center"
         autoClose={5000}

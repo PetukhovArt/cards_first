@@ -9,13 +9,19 @@ export const packsApi = {
         max: par.max,
         sortPacks: par.sortPacks,
         page: par.page,
-        pageCount: par.pageCount,
+        pageCount: par.pageCount ? par.pageCount : 7,
         user_id: par.userId,
       },
     });
   },
   addPack: (payload: AddPackPayloadType) => {
-    return instance.post("cards/pack", { payload });
+    return instance.post("cards/pack", {
+      cardsPack: {
+        name: payload.name,
+        deckCover: payload.deckCover,
+        private: payload.private,
+      },
+    });
   },
   deletePack: (id: string) => {
     return instance.delete(`cards/pack?id=${id}`);
@@ -61,7 +67,7 @@ export type CardPackType = {
   type: string;
   rating: number;
   created: string;
-  updated: string;
+  updated: Date;
   more_id: string;
   __v: number;
 };

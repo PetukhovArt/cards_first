@@ -4,12 +4,11 @@ html {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-}
-body {
   font-size: 14px;
   scroll-behavior: smooth;
-  background: #0f0f0f;
+  background: lightgrey;
 }
+
 .container {
   /*для ограничения ширины*/
   max-width: 1200px;

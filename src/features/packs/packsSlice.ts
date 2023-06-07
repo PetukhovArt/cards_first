@@ -1,15 +1,34 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createAppAsyncThunk, thunkTryCatch } from "common/utils";
-import { CardPackType, GetPacksParamsType, packsApi, PacksResType } from "features/packs/packsApi";
+import {
+  AddPackPayloadType,
+  CardPackType,
+  GetPacksParamsType,
+  packsApi,
+  PacksResType,
+} from "features/packs/packsApi";
+import { toast } from "react-toastify";
 
 //THUNKS =================================================================================================
 
 export const fetchCardPacksTC = createAppAsyncThunk<{ packs: PacksResType }, GetPacksParamsType>(
-  "auth/register",
+  "packs/getPacks",
   async (arg, thunkAPI) => {
     return thunkTryCatch(thunkAPI, async () => {
       const res = await packsApi.getPacks(arg);
       return { packs: res.data };
+    });
+  }
+);
+export const addCardPackTC = createAppAsyncThunk(
+  "packs/addPack",
+  async (arg: AddPackPayloadType, thunkAPI) => {
+    const { dispatch } = thunkAPI;
+    return thunkTryCatch(thunkAPI, async () => {
+      const res = await packsApi.addPack(arg); //добавляем пак
+      await dispatch(fetchCardPacksTC({})); //фетчим по новой
+      toast.success("🦄 Pack added successfully");
+      return { res };
     });
   }
 );

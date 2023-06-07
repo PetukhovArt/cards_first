@@ -4,7 +4,25 @@
   @include flex-block(flex, row, center, top);
   width: 100%;
   height: 100%;
-}
-.packsContainer {
-  width: 100%;
+  .packsContainer {
+    width: 1000px;
+    .titleBlock {
+      margin-top: 40px;
+      @include flex-block(flex, row, space-between, center);
+      .title {
+        display: block;
+        font-weight: 600;
+        font-size: 22px;
+        line-height: 27px;
+      }
+    }
+    .actionsBlock {
+      margin-top: 40px;
+      margin-bottom: 24px;
+      @include flex-block(flex, row, space-between, center);
+    }
+    .paginationBlock {
+      margin-top: 36px;
+    }
+  }
 }

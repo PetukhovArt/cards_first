@@ -6,10 +6,12 @@ import { SuperButton } from "common/components/super-button/SuperButton";
 import { RouteNames } from "routes/routes";
 import ava from "../../assets/images/ava.png";
 import { useAppSelector } from "common/hooks/useAppSelector";
+import { RootState } from "app/store";
 
 export const Header = () => {
   const isLoading = useAppSelector<boolean>((state) => state.app.isLoading);
-  const user = useAppSelector((state) => state.user.profile);
+  const profile = useAppSelector((state) => state.user.profile);
+  const isAuth = useAppSelector((state: RootState) => state.user.isAuth);
 
   const location = useLocation();
   const profilePage = location.pathname === RouteNames.PROFILE;
@@ -23,15 +25,16 @@ export const Header = () => {
           </div>
           {!profilePage && ( //если страница профайл , то кнопку не показывать
             <div className={s.actions}>
+              {/*{!isAuth && <SuperButton name={"Sign In"} redirectPath={RouteNames.LOGIN} />}*/}
               <SuperButton name={"Sign In"} redirectPath={RouteNames.LOGIN} />
               <SuperButton name={"Logout"} redirectPath={RouteNames.PROFILE} />
             </div>
           )}
           {profilePage && (
             <div className={s.actions}>
-              <div className={s.userName}>{user && user.name ? user.name : "user"}</div>
+              <div className={s.userName}>{profile && profile.name ? profile.name : "user"}</div>
               <div className={s.avatar}>
-                <img src={user && user.avatar ? user.avatar : ava} alt="userAva" />
+                <img src={profile && profile.avatar ? profile.avatar : ava} alt="userAva" />
               </div>
             </div>
           )}

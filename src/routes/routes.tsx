@@ -19,7 +19,7 @@ import App from "app/App";
 
 export enum RouteNames {
   START_PAGE = "/",
-  ERROR_PAGE = "*",
+  ERROR_PAGE = "/404",
   LOGIN = "/login",
   REGISTER = "/register",
   CHECK_EMAIL = "/check-email",
@@ -33,8 +33,7 @@ export enum RouteNames {
 export const router = createHashRouter(
   createRoutesFromElements(
     <Route path={RouteNames.START_PAGE} element={<App />}>
-      <Route path={RouteNames.START_PAGE} element={<Navigate to={RouteNames.PACKS} />} />
-      <Route path={RouteNames.ERROR_PAGE} element={<ErrorPage />} />
+      <Route path={RouteNames.START_PAGE} element={<Packs />} />
       <Route path={RouteNames.PROFILE} element={<Profile />} />
       <Route path={RouteNames.LOGIN} element={<Login />} />
       <Route path={RouteNames.REGISTER} element={<Register />} />
@@ -44,6 +43,8 @@ export const router = createHashRouter(
       <Route path={RouteNames.FORGOT_PASSWORD} element={<ForgotPassword />} />
       <Route path={RouteNames.PACKS} element={<Packs />} />
       <Route path={RouteNames.LEARN} element={<Learn />} />
+      <Route path={RouteNames.ERROR_PAGE} element={<ErrorPage />} />
+      <Route path="*" element={<Navigate to={RouteNames.ERROR_PAGE} />} />
     </Route>
   )
 );

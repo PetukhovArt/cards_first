@@ -12,7 +12,12 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useEffect, useState } from "react";
 import { useAppDispatch } from "common/hooks/useAppDispatch";
-import { addCardPackTC, deleteCardPackTC, fetchCardPacksTC } from "features/packs/packsSlice";
+import {
+  addCardPackTC,
+  deleteCardPackTC,
+  fetchCardPacksTC,
+  updateCardPackTC,
+} from "features/packs/packsSlice";
 import { BearLoader } from "app/BearLoader/BearLoader";
 import IconButton from "@mui/material/IconButton";
 import SchoolIcon from "@mui/icons-material/School";
@@ -59,6 +64,9 @@ export const Packs = () => {
   };
   const deletePackHandler = (id: string) => {
     dispatch(deleteCardPackTC(id));
+  };
+  const updatePackHandler = (_id: string, name: string) => {
+    dispatch(updateCardPackTC({ _id, name }));
   };
 
   return (
@@ -110,7 +118,8 @@ export const Packs = () => {
                       <SchoolIcon />
                     </IconButton>
                     <IconButton aria-label="edit">
-                      <EditIcon />
+                      <EditIcon onClick={() => updatePackHandler(p._id, "updatedPack13")} />
+                      {/*TODO hardcode name*/}
                     </IconButton>
                     <IconButton aria-label="delete">
                       <DeleteOutlineIcon onClick={() => deletePackHandler(p._id)} />

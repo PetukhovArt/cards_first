@@ -3,24 +3,12 @@ import { instance } from "common/api/common.api";
 export const packsApi = {
   getPacks: (par: GetPacksParamsType) => {
     return instance.get<PacksResType>("cards/pack", {
-      params: {
-        packName: par.packName,
-        min: par.min,
-        max: par.max,
-        sortPacks: par.sortPacks,
-        page: par.page,
-        pageCount: par.pageCount ? par.pageCount : 7,
-        user_id: par.userId,
-      },
+      params: { ...par },
     });
   },
   addPack: (payload: AddPackPayloadType) => {
     return instance.post("cards/pack", {
-      cardsPack: {
-        name: payload.name,
-        deckCover: payload.deckCover,
-        private: payload.private,
-      },
+      cardsPack: { ...payload },
     });
   },
   deletePack: (id: string) => {
@@ -50,7 +38,7 @@ export type GetPacksParamsType = {
   sortPacks?: string;
   page?: number;
   pageCount?: number;
-  userId?: string;
+  user_id?: string;
 };
 
 export type CardPackType = {

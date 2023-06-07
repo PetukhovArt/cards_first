@@ -12,7 +12,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useEffect, useState } from "react";
 import { useAppDispatch } from "common/hooks/useAppDispatch";
-import { addCardPackTC, fetchCardPacksTC } from "features/packs/packsSlice";
+import { addCardPackTC, deleteCardPackTC, fetchCardPacksTC } from "features/packs/packsSlice";
 import { BearLoader } from "app/BearLoader/BearLoader";
 import IconButton from "@mui/material/IconButton";
 import SchoolIcon from "@mui/icons-material/School";
@@ -56,10 +56,9 @@ export const Packs = () => {
         name: "test14", //TODO hardcode
       })
     );
-    // //после добавления пака , делаем повторный фетч всех паков
-    // .unwrap()
-    // .then(() => dispatch(fetchCardPacksTC({})))
-    // .catch((e) => console.error(e));
+  };
+  const deletePackHandler = (id: string) => {
+    dispatch(deleteCardPackTC(id));
   };
 
   return (
@@ -71,6 +70,7 @@ export const Packs = () => {
         </div>
         <div className={s.actionsBlock}>
           <div className={s.search}>
+            <span>Search</span>
             <SearchBar searchValue={searchValue} setSearchValue={setSearchValue} />
           </div>
           <div className={s.showCards}>
@@ -113,7 +113,7 @@ export const Packs = () => {
                       <EditIcon />
                     </IconButton>
                     <IconButton aria-label="delete">
-                      <DeleteOutlineIcon />
+                      <DeleteOutlineIcon onClick={() => deletePackHandler(p._id)} />
                     </IconButton>
                   </TableCell>
                 </TableRow>

@@ -6,6 +6,7 @@ import {
   GetPacksParamsType,
   packsApi,
   PacksResType,
+  UpdatePackPayloadType,
 } from "features/packs/packsApi";
 import { toast } from "react-toastify";
 
@@ -27,8 +28,26 @@ export const addCardPackTC = createAppAsyncThunk(
     return thunkTryCatch(thunkAPI, async () => {
       const res = await packsApi.addPack(arg); //добавляем пак
       await dispatch(fetchCardPacksTC({})); //фетчим по новой
-      toast.success("🦄 Pack added successfully");
-      return { res };
+    });
+  }
+);
+export const deleteCardPackTC = createAppAsyncThunk(
+  "packs/deletePack",
+  async (arg: string, thunkAPI) => {
+    const { dispatch } = thunkAPI;
+    return thunkTryCatch(thunkAPI, async () => {
+      const res = await packsApi.deletePack(arg);
+      await dispatch(fetchCardPacksTC({}));
+    });
+  }
+);
+export const updateCardPackTC = createAppAsyncThunk(
+  "packs/deletePack",
+  async (arg: UpdatePackPayloadType, thunkAPI) => {
+    const { dispatch } = thunkAPI;
+    return thunkTryCatch(thunkAPI, async () => {
+      const res = await packsApi.updatePack(arg);
+      await dispatch(fetchCardPacksTC({}));
     });
   }
 );

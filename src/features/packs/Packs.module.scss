@@ -20,8 +20,35 @@
       margin-top: 40px;
       margin-bottom: 24px;
       @include flex-block(flex, row, space-between, center);
+      .showCards {
+        @include flex-block(flex, column, center, center);
+      }
+      .slider {
+        @include flex-block(flex, column, space-between, center);
+        .sliderContent {
+          @include flex-block(flex, row, space-between, center);
+          gap: 20px;
+          .sliderNumber {
+            @include flex-block(flex, row, center, center);
+            background: #ffffff;
+            border: 1px solid #d9d9d9;
+            border-radius: 2px;
+            width: 36px;
+            height: 36px;
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 20px;
+            color: #000000;
+          }
+        }
+      }
+      .resetFilter {
+        @include flex-block(flex, row, space-between, center);
+      }
     }
     .paginationBlock {
+      @include flex-block(flex, row, left, center);
+      gap: 20px;
       margin-top: 36px;
     }
   }

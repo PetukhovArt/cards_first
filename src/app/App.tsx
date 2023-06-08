@@ -15,19 +15,23 @@ import { BearLoader } from "app/BearLoader/BearLoader";
 
 function App() {
   const isAuth = useAppSelector((state: RootState) => state.user.isAuth);
+  const profile = useAppSelector((state: RootState) => state.user.profile);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   // globalRouter.navigate = navigate; //for redirect (by axios Interceptor) in components after response OK
   // https://dev.to/davidbuc/how-to-use-router-inside-axios-interceptors-react-and-vue-5ece
 
   useEffect(() => {
-    console.log("App useeffect for isAuth");
-    dispatch(userThunks.isAuthTC())
-      .unwrap()
-      .then(() => console.log("authorized"))
-      .catch((e) => {
-        navigate(RouteNames.LOGIN);
-      });
+    if (profile?._id === null) {
+      setTimeout(() => {
+        dispatch(userThunks.isAuthTC())
+          .unwrap()
+          .then(() => console.log("authorized"))
+          .catch((e) => {
+            navigate(RouteNames.LOGIN);
+          });
+      }, 3000);
+    }
   }, []);
 
   return (

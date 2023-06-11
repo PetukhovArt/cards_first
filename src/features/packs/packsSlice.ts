@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { createAppAsyncThunk, thunkTryCatch } from "common/utils";
 import {
   AddPackPayloadType,
@@ -57,16 +57,21 @@ export const updateCardPackTC = createAppAsyncThunk(
 const packsInitialState = {
   cardPacks: [] as CardPackType[],
   cardPacksTotalCount: null as number | null,
-  maxCardsCount: null as number | null,
-  minCardsCount: null as number | null,
-  page: null as number | null, // выбранная страница
-  pageCount: null as number | null, // количество элементов на странице
+  maxCardsCount: 100 as number,
+  minCardsCount: 0 as number,
+  page: 1 as number, // выбранная страница
+  pageCount: 6 as number, // количество элементов на странице
 };
 
 const slice = createSlice({
   name: "packs",
   initialState: packsInitialState,
-  reducers: {},
+  reducers: {
+    // setMinMaxCardsCount: (state, action: PayloadAction<number[]>) => {
+    //   state.minCardsCount = action.payload[0];
+    //   state.maxCardsCount = action.payload[1];
+    // },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchCardPacksTC.fulfilled, (state, action) => {
       state.cardPacks = action.payload.packs.cardPacks;
@@ -83,4 +88,7 @@ export const packsReducer = slice.reducer;
 export const packsActions = slice.actions;
 export const packsThunks = {
   fetchCardPacksTC,
+  addCardPackTC,
+  deleteCardPackTC,
+  updateCardPackTC,
 };

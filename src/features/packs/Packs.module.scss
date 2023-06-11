@@ -6,6 +6,11 @@
   height: 100%;
   .packsContainer {
     width: 1000px;
+    .noPacksError {
+      text-align: center;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
     .titleBlock {
       margin-top: 40px;
       @include flex-block(flex, row, space-between, center);
@@ -22,6 +27,10 @@
       @include flex-block(flex, row, space-between, center);
       .showCards {
         @include flex-block(flex, column, center, center);
+        .buttons {
+          @include flex-block(flex, row, center, center);
+          gap: 2px;
+        }
       }
       .slider {
         @include flex-block(flex, column, space-between, center);

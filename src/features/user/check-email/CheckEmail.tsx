@@ -11,7 +11,7 @@ export const CheckEmail = () => {
         <h3>Check Email</h3>
         <MarkEmailReadIcon color={"primary"} sx={{ fontSize: "100px" }} />
         <div className={c.description}>
-          We’ve sent an Email with instructions to example@mail.com
+          We’ve sent an Email with instructions to example@mail.com //TODO
         </div>
         <div className={c.actions}>
           <SuperButton name={"Back to login"} redirectPath={RouteNames.LOGIN} />

@@ -1,4 +1,4 @@
-import { instance, instanceHeroku } from "common/api/common.api";
+import { instance } from "common/api/common.api";
 
 const message = `<div style="background-color: lime; padding: 15px">
 password recovery link: 
@@ -9,17 +9,17 @@ const from = "test-front-admin <s1abak38@gmail.com>";
 
 export const userApi = {
   register: (data: RegPayloadType) => {
-    return instanceHeroku.post<{ addedUser: ProfileType }>("auth/register", data);
+    return instance.post<{ addedUser: ProfileType }>("auth/register", data);
   },
   forgot: (data: ForgotPayloadType) => {
-    return instanceHeroku.post<ForgotResType>("auth/forgot", {
+    return instance.post<ForgotResType>("auth/forgot", {
       email: data.email,
       from: from,
       message: message,
     });
   },
   setNewPassword: (data: SetNewPasswordPayLoadType) => {
-    return instanceHeroku.post<ForgotResType>("auth/set-new-password", data);
+    return instance.post<ForgotResType>("auth/set-new-password", data);
   },
 
   login: (data: LoginPayloadType) => {
